@@ -20,3 +20,4 @@ router.post("/forget_password/password_reset",reset_password);
 // router.delete("/:id", auth, deleteUser);
 
 module.exports = router;
+le.exports = router;
