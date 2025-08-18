@@ -1,5 +1,6 @@
-//SIGN JWT
- const signJWT = (payload) => {
+ const jwt = require("jsonwebtoken");
+ require("dotenv").config();
+const signJWT = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY , {
     expiresIn: "24h",
   });

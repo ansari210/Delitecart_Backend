@@ -27,7 +27,7 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: "admin",
+     
     });
 
     const newuser = await newUser.save();
@@ -185,33 +185,29 @@ const logout = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+  
     const user = await User.findOne({ email });
+      console.log(">>>",user);
     if (!user) throw new Error("User not found");
 
-    if (!user.password) throw new Error("User not found");
+    if (!user?.password) throw new Error("User not found");
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user?.password);
     if (!isMatch) throw new Error("Invalid credentials");
 
     const payload = {
       user: {
-        id: user._id,
-        name: user.name,
-        role: user.role,
-        avatar: user.avatar,
+        id: user?._id,
+        name: user?.name,
+        role: user?.role,
+        avatar: user?.avatar,
       },
     };
 
     const token = signJWT(payload);
-
-    return res
-      .cookie("access_token", token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        // secure: process.env.NODE_ENV === "production",
-      })
-      .status(200)
-      .json({ success: true, message: "Login successful" });
+  
+    return res.status(200)
+      .json({ success: true, message: "Login successful", data:token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

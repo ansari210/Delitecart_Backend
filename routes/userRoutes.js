@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-// Public lki  ukring
+// Public lki  ukring   abcd
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout",logout);
@@ -20,4 +20,4 @@ router.post("/forget_password/password_reset",reset_password);
 // router.delete("/:id", auth, deleteUser);
 
 module.exports = router;
-le.exports = router;
+

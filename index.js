@@ -5,18 +5,18 @@ const cors = require("cors");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
-// const connectDB = require("./config/db");
+const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
 // Connect DB
-// connectDB();
+connectDB();
 
 // Middleware
-app.use(helmet());
+// app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
