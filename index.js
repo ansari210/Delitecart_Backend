@@ -14,9 +14,9 @@ const app = express();
 connectDB();
 
 // Middleware
-// app.use(helmet());
+app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-// app.use(morgan("dev"));
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
