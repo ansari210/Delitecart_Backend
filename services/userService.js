@@ -16,6 +16,18 @@ const transporter = nodemailer.createTransport({
 });
 const FAST2SMS_URL = "https://www.fast2sms.com/dev/bulkV2";
 
+const get_user_profile = async (req, res) => {
+  try {
+   const {id} = req.user;
+     
+    const user = await User.findById(id).select("-password -role -otp -otp_expiry")
+    console.log("decode>>>>", user);
+    return res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -187,7 +199,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
   
     const user = await User.findOne({ email });
-      console.log(">>>",user);
+     
     if (!user) throw new Error("User not found");
 
     if (!user?.password) throw new Error("User not found");
@@ -265,4 +277,4 @@ const login = async (req, res) => {
    }
  };
 
-module.exports = { register, logout, login, genrate_otp,verify_otp,reset_password,mobile_otp };
+module.exports = { register, logout, login, genrate_otp,verify_otp,reset_password,mobile_otp,get_user_profile };

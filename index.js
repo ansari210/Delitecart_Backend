@@ -7,7 +7,7 @@ const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
-
+const queryRoutes=require("./routes/queryRoutes")
 const app = express();
 
 // Connect DB
@@ -23,6 +23,7 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
 // Routes
 app.use("/api/user", userRoutes);
+app.use("/api/query", queryRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 4000;
