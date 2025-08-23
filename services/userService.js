@@ -30,8 +30,8 @@ const get_user_profile = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) throw new Error("Please fill all fields");
+    const { name, email, password,term_privacy } = req.body;
+    if (!name || !email || !password||!term_privacy) throw new Error("Please fill all fields");
     const user = await User.findOne({ email });
     if (user) throw new Error("User already exists");
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,9 +39,10 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      term_privacy
      
     });
-
+ 
     const newuser = await newUser.save();
     res.status(200).json({
       success: true,
@@ -56,25 +57,23 @@ const register = async (req, res) => {
 const genrate_otp = async (req, res) => {
 
   try{
-
-  
-  const {name, email } = req.body;
-  // const user = await User.findOne({ email });
-  if (!email)
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user)
     return res
       .status(404)
       .send({ success: false, message: "Your're Not Register" });
   // email services
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-  // user.otp = otp;
-  // user.otp_expiry = otpExpiry;
-  // await user.save();
-  const htmlContent = getOtpTemplate(name, email, otp);
+  user.otp = otp;
+  user.otp_expiry = otpExpiry;
+  await user.save();
+  const htmlContent = getOtpTemplate(user.name, user.email, otp);
 
   await transporter.sendMail({
     from: '"DelightCart" <noreply@delightcart.com>',
-    to: email,
+    to: user.email,
     subject: "Your DelightCart OTP for Password Reset",
     html: htmlContent,
     attachments: [

@@ -20,6 +20,7 @@ const register_query = async (req, res) => {
       receiver_comm_message,
       store_data,
     } = req.body;
+    
     const newQuery = new Query({
       first_name,
       last_name,

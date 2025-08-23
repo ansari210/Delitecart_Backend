@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
     },
     email: {
       type: String,
@@ -13,11 +12,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    phone: {
-      type: Number,
-      maxlength: 10,
-      unique: true,
-    },
+
     image: {
       type: String,
     },
@@ -31,6 +26,11 @@ const userSchema = new mongoose.Schema(
     },
     otp_expiry:{
       type:Date
+    },
+    term_privacy:{
+      type:Boolean,
+      required:true,
+      default:true
     }
   },
   {

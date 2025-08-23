@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema(
     product_size: {
       type: String,
     },
+    price: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
